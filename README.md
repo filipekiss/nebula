@@ -18,9 +18,9 @@ The ultimate goal of Nebula is to allow you to have a starting point for your
 configuration that's documented enough so you can understand what it does and
 easily customize it, override it and finally remove it.
 
-**filipekiss/nebula** © 2022+, Released under the [Blue Oak][blue oak] License.
+**filipekiss/nebula** © 2022+, Released under the [Blue Oak License][license].
 
 > Authored and maintained by Filipe Kiss with help from [contributors].
 
-[blue oak]: https://blueoakcouncil.org/license/1.0.0#html
+[license]: LICENSE.md
 [contributors]: http://github.com/filipekiss/nebula/contributors
