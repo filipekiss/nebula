@@ -1,7 +1,7 @@
 -- modified from https://github.com/rxi/log.lua
 local log = {}
 
-log.level = vim.g.nebula_log_level or "warn" -- use warn by default
+log.level = Nebula.log_level or "error" -- use error by default
 
 local modes = {
 	{ name = "trace" },

@@ -96,6 +96,84 @@ local settings = {
 return settings
 ```
 
+#### mappings.lua
+
+|        Nebula File        |        User File        |
+| :-----------------------: | :---------------------: |
+| `lua/nebula/mappings.lua` | `lua/user/mappings.lua` |
+
+The second file loaded by Nebula is responsible for setting up the keyboard
+mappings. Some other editors call them "shortcuts", but I think the term
+mappings is more appropriate.
+
+If you're completely new to Neovim, there is a lot to unpack. I'll write a
+proper guide on mappings later, but for now I'll give you enough to, at least,
+write your own mappings.
+
+I recommend you take a look at the `lua/nebula/mappings.lua` file, so you can
+grasp what the default mappings do (I've commented all of them) and get an
+understanding of how we can map keys.
+
+Since Neovim has multiple editing modes (normal, insert, visual, etc…), it makes
+sense that mappings are (usually) applied to a single mode at a time.
+
+The other difference is that a mapping can either be recursive or non-recursive.
+The main difference between these modes is if the mapping should "translate"
+into custom maps or just use the default Neovim bindings. By default, I
+recommend you write your mappings using the non-recursive version and, if they
+are not working as you expected, you try the recursive version.
+
+To create a non-recursive mapping in normal mode, we use the `nnoremap` helper
+from Nebula:
+
+```lua
+-- load the nnoremap helper from Nebula
+local nnoremap = require("nebula.helpers.mappings").nnoremap
+-- remap H to act as if you pressed ^
+nnoremap("H", "^")
+```
+
+The command above will make that, every time you press <kbd>H</kbd>, Neovim
+actually acts as if you had pressed <kbd>^</kbd>.
+
+> ℹ️ If you're wondering what that mapping does, it makes the cursor move to the
+> beginning of the line. This mapping is on line 70 in the file
+> `lua/nebula/mappings.lua`. Using <kbd>H</kbd> makes it easier than reaching for
+> <kbd>^</kbd>
+
+This is a very simple example, just to get you started. There are a lot of them
+in mappings file.
+
+One important difference from the mappings file to the settings file we
+explained is that, unlike the settings file, the mappings file **does not**
+return a table. The mappings are applied when the file is loaded, so there's no
+need to return anything if you decide to write your own `lua/user/mappings.lua`
+file.
+
+Another important detail is that Nebula mappings will **never** override your
+own mappings. So if you set a mapping in `lua/user/mappings.lua` that would
+conflict with a mapping set by Nebula, Nebula won't override.
+
+If you wish to disable all Nebula mappings, you can set
+`Nebula.enable_mappings = false` in the `init.lua` file, before requiring
+Nebula:
+
+```lua
+-- init.lua
+Nebula.enable_mappings = false
+require("nebula")
+```
+
+##### Example
+
+```lua
+-- lua/user/mappings.lua
+local nnoremap = require("nebula.helpers.mapping").nnoremap
+
+-- Map <Leader>Q to force ':quit'
+nnoremap("<leader>Q", "<cmd>quit!<CR>")
+```
+
 ## Other projects
 
 You can check out these other configurations that offer a similar experience to
