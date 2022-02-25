@@ -1,9 +1,15 @@
 -- These are the default options that are loaded during the bootstraping phase.
 -- If you're looking for Neovim options, check the `settings.lua` file
+local fn = vim.fn
+
 local nebula_options = {
-	log_level = "error",
-	user_namespace = "user",
-	enable_mappings = true,
+    enable_mappings = true,
+    enable_plugins = true,
+    enable_settings = true,
+    user_namespace = "user",
+    install_packer = true,
+    packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim",
+    packer_float_window = true,
 }
 
 return nebula_options

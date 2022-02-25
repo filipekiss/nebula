@@ -2,6 +2,13 @@
 
 > Nebula is a customizable Neovim configuration with friendly defaults for new comers
 
+### Disclaimer
+
+Although I consider Nebula ready to use, I'm still experimenting with it. That
+means that APIs might change, options might be added or removed and
+documentation might be lacking. Feel free to [start a discussion](https://github.com/filipekiss/nebula/discussions) or [open an
+issue](https://github.com/filipekiss/nebula/issues)
+
 ## Why Nebula?
 
 Nebula is a project looking to provide a Neovim configuration that is fast,
@@ -34,25 +41,26 @@ git submodule add http://github.com/filipekiss/nebula.git lua/nebula
 ```
 
 This will clone Nebula into the `lua/nebula` folder. To enable Nebula, edit your
-`init.lua` file to require Nebula:
+`init.lua` file to require Nebula and call `Nebula.init()`:
 
 ```lua
 -- init.lua
-require("nebula")
+Nebula = require("nebula")
+Nebula.init()
 ```
 
 Restart Neovim and Nebula should be enabled.
 
 ## Customizing Nebula
 
-Nebula aims to be a easily extendable configuration. To achieve that, Nebula
-tries to be as transparent as possible, allowing you to work closely to the Lua
+Nebula aims to be an easily extendable configuration. To achieve that, Nebula
+tries to be as transparent as possible, allowing you to work as close to the Lua
 API as possible. Everything Nebula lives in the `lua/nebula/` folder and these
 files should not be changed. Whenever Nebula is updated, these files might be
 overwritten with the latest configuration, so you might lose your
 customizations.
 
-Nebula when loading it's own settings, will look for some special files to
+When Nebula is loading it's own settings, it will look for some special files to
 either extend or override. These files need to be in the folder `lua/user/`,
 otherwise Nebula won't find them. Below you'll find a list of all the files that
 Nebula loads when doing it's setup and how you can use that to customize your
@@ -80,16 +88,15 @@ for changing some behaviours from Neovim to things that make the usage a bit
 easier. You can check the file located in `lua/nebula/settings.lua` to see what
 changes are being applied.
 
-To customize your own settings, you can create a file in
-`lua/user/settings.lua`. This file must return a table with the settings you
-wish to change.
+To customize your own settings, you can create a file in `lua/user/settings.lua`.
+This file must return a table with the settings you wish to change.
 
 ##### Example
 
 ```lua
 -- lua/user/settings.lua
 local settings = {
-    cursorline = false, -- disable current line highlght (enabled by default)
+    cursorline = false, -- disable current line highlight (enabled by default)
     colorcolumn = "80,120", -- add a guide line at 80 and 120 chars (80 by default)
 }
 
@@ -112,7 +119,7 @@ write your own mappings.
 
 I recommend you take a look at the `lua/nebula/mappings.lua` file, so you can
 grasp what the default mappings do (I've commented all of them) and get an
-understanding of how we can map keys.
+understanding of how keys are mapped.
 
 Since Neovim has multiple editing modes (normal, insert, visual, etc…), it makes
 sense that mappings are (usually) applied to a single mode at a time.
@@ -127,19 +134,20 @@ To create a non-recursive mapping in normal mode, we use the `nnoremap` helper
 from Nebula:
 
 ```lua
+-- lua/user/mappings.lua
+
 -- load the nnoremap helper from Nebula
 local nnoremap = require("nebula.helpers.mappings").nnoremap
 -- remap H to act as if you pressed ^
 nnoremap("H", "^")
 ```
 
-The command above will make that, every time you press <kbd>H</kbd>, Neovim
-actually acts as if you had pressed <kbd>^</kbd>.
+The command above will make that, every time you press <kbd>H</kbd>, Neovim actually 
+acts as if you had pressed <kbd>^</kbd>.
 
 > ℹ️ If you're wondering what that mapping does, it makes the cursor move to the
-> beginning of the line. This mapping is on line 70 in the file
-> `lua/nebula/mappings.lua`. Using <kbd>H</kbd> makes it easier than reaching for
-> <kbd>^</kbd>
+> beginning of the line. This mapping is on line 70 in the file `lua/nebula/mappings.lua`.
+> Using <kbd>H</kbd> makes it easier than reaching for <kbd>^</kbd>
 
 This is a very simple example, just to get you started. There are a lot of them
 in mappings file.
@@ -152,16 +160,17 @@ file.
 
 Another important detail is that Nebula mappings will **never** override your
 own mappings. So if you set a mapping in `lua/user/mappings.lua` that would
-conflict with a mapping set by Nebula, Nebula won't override.
+conflict with a mapping set by Nebula, it won't be overriden.
 
-If you wish to disable all Nebula mappings, you can set
-`Nebula.enable_mappings = false` in the `init.lua` file, before requiring
-Nebula:
+If you wish to disable all Nebula mappings, you can set `enable_mappings = false`
+in the `init.lua` file when calling `Nebula.init()`:
 
 ```lua
 -- init.lua
-Nebula.enable_mappings = false
-require("nebula")
+Nebula = require("nebula")
+Nebula.init({
+    enable_mappings = false
+  })
 ```
 
 ##### Example
@@ -173,6 +182,16 @@ local nnoremap = require("nebula.helpers.mapping").nnoremap
 -- Map <Leader>Q to force ':quit'
 nnoremap("<leader>Q", "<cmd>quit!<CR>")
 ```
+
+## Plugins
+
+Neovim can be extended by using plugins to add or modify functionality. Nebula
+ships with a collection of plugins to enhance user experience, but is also very
+easy to add your own.
+
+Since plugins have a lot of details regarding their configuration, there's a
+file in [plugins/README.md](plugins/README.md) that explains how to customize
+and add new plugins to Nebula.
 
 ## Other projects
 

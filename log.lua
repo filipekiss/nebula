@@ -1,7 +1,7 @@
 -- modified from https://github.com/rxi/log.lua
 local log = {}
 
-log.level = Nebula.log_level or "error" -- use error by default
+log.level = NEBULA_LOG_LEVEL or "error" -- use error by default
 
 local modes = {
 	{ name = "trace" },

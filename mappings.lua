@@ -11,7 +11,7 @@
 
 local log = require("nebula.log")
 
-if not Nebula.enable_mappings then
+if not Nebula.options.enable_mappings then
 	log.info("User disabled mappings. Skipping…")
 	return
 end
