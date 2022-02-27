@@ -3,13 +3,13 @@
 local fn = vim.fn
 
 local nebula_options = {
-    enable_mappings = true,
-    enable_plugins = true,
-    enable_settings = true,
-    user_namespace = "user",
-    install_packer = true,
-    packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim",
-    packer_float_window = true,
+	enable_mappings = true,
+	enable_plugins = true,
+	enable_settings = true,
+	user_namespace = "user",
+	install_packer = true,
+	packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim",
+	packer_float_window = true,
 }
 
 return nebula_options

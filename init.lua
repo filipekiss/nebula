@@ -78,12 +78,11 @@ Nebula.load_plugins = function()
 		})
 	end
 
-
-  local user_plugins = require("nebula.helpers.plugins").user_plugins
+	local user_plugins = require("nebula.helpers.plugins").user_plugins
 	Nebula.all_plugins = vim.tbl_extend(
 		"force",
 		nebula_plugins,
-    user_plugins,
+		user_plugins,
 		Nebula.options.active_plugins or {}
 	)
 
@@ -92,14 +91,14 @@ Nebula.load_plugins = function()
 
 	Nebula.active_plugins = {}
 
-  for key, value in pairs(Nebula.all_plugins) do
-    if value == false then
-      log.info(string.format("%s is disabled, skipping", key))
-    end
+	for key, value in pairs(Nebula.all_plugins) do
+		if value == false then
+			log.info(string.format("%s is disabled, skipping", key))
+		end
 		if type(value) == "table" then
-      Nebula.active_plugins[key] = value
-    end
-  end
+			Nebula.active_plugins[key] = value
+		end
+	end
 
 	for _, plugin_config in ipairs(Nebula.active_plugins) do
 		packer.use(plugin_config)
@@ -133,8 +132,8 @@ Nebula.init = function(options)
 		Nebula.load_settings()
 	end
 
-  log.debug("Loading Mappings")
-  Nebula.load_mappings()
+	log.debug("Loading Mappings")
+	Nebula.load_mappings()
 
 	if Nebula.options.enable_plugins == true then
 		log.debug("Loading Plugins")

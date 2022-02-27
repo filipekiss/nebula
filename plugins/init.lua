@@ -23,9 +23,9 @@ end
 local plugin = require("nebula.helpers.plugins").plugin
 local colorscheme = require("nebula.helpers.plugins").colorscheme
 local plugins = {
-  packer = plugin("packer"),
-  treesitter = plugin("treesitter"),
-  catppuccin = colorscheme("catppuccin"),
+	packer = plugin("packer"),
+	treesitter = plugin("treesitter"),
+	catppuccin = colorscheme("catppuccin"),
 }
 
 return plugins

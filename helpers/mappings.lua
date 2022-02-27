@@ -53,7 +53,12 @@ end
 
 function mapping_helper.leader(leader_key)
 	if vim.g.mapleader then
-		log.info(string.format([[Leader is Mapped to <%s>, will not remap…]], vim.g.mapleader))
+		log.info(
+			string.format(
+				[[Leader is Mapped to <%s>, will not remap…]],
+				vim.g.mapleader
+			)
+		)
 		return
 	end
 	vim.g.mapleader = leader_key
@@ -61,7 +66,12 @@ end
 
 function mapping_helper.localleader(leader_key)
 	if vim.g.maplocalleader then
-		log.info(string.format([[Local Leader is Mapped to <%s>, will not remap…]], vim.g.maplocalleader))
+		log.info(
+			string.format(
+				[[Local Leader is Mapped to <%s>, will not remap…]],
+				vim.g.maplocalleader
+			)
+		)
 		return
 	end
 	vim.g.maplocalleader = leader_key

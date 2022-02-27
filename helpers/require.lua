@@ -39,7 +39,10 @@ nebula_require.get_config = function(file_to_require)
 		log.debug("User config not found for " .. file_to_require)
 	end
 	if user_config and user_config.nebula_override == true then
-		log.info("User config set to override. Ignoring Nebula config for " .. file_to_require)
+		log.info(
+			"User config set to override. Ignoring Nebula config for "
+				.. file_to_require
+		)
 		user_config["nebula_override"] = nil
 		return user_config
 	end
@@ -57,7 +60,9 @@ nebula_require.get_config = function(file_to_require)
 	if nebula_config then
 		return nebula_config
 	end
-	log.warn("Requested config for " .. file_to_require .. " but none was found.")
+	log.warn(
+		"Requested config for " .. file_to_require .. " but none was found."
+	)
 end
 
 nebula_require.load_config = function(file_to_require)
@@ -71,7 +76,10 @@ nebula_require.load_config = function(file_to_require)
 		log.debug("User config not found for " .. file_to_require)
 	end
 	if type(user_config) == "table" and user_config.nebula_override == true then
-		log.info("User config set to override. Ignoring Nebula config for " .. file_to_require)
+		log.info(
+			"User config set to override. Ignoring Nebula config for "
+				.. file_to_require
+		)
 		user_config["nebula_override"] = nil
 		return user_config
 	end
@@ -89,7 +97,9 @@ nebula_require.load_config = function(file_to_require)
 	if nebula_config then
 		return nebula_config
 	end
-	log.warn("Requested config for " .. file_to_require .. " but none was found.")
+	log.warn(
+		"Requested config for " .. file_to_require .. " but none was found."
+	)
 end
 
 return nebula_require

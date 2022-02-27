@@ -50,10 +50,26 @@ xnoremap("k", "v:count ? 'k' : 'gk'", opts.expr(opts.silent(default_options)))
 
 -- used to quickly move lines up and down. accepts a count, so 2<leader>j will
 -- move it two lines down and also works in visual selection mode
-nnoremap("<leader>j", ":<c-u>execute 'move +' . v:count1<CR>", opts.silent(default_options))
-nnoremap("<leader>k", ":<c-u>execute 'move --' . v:count1<CR>", opts.silent(default_options))
-xnoremap("<leader>j", ":<c-u>execute \"'<,'>move'>+\" . v:count1 <CR>gv", opts.silent(default_options))
-xnoremap("<leader>k", ":<c-u>execute \"'<,'>move'<--\" . v:count1 <CR>gv", opts.silent(default_options))
+nnoremap(
+	"<leader>j",
+	":<c-u>execute 'move +' . v:count1<CR>",
+	opts.silent(default_options)
+)
+nnoremap(
+	"<leader>k",
+	":<c-u>execute 'move --' . v:count1<CR>",
+	opts.silent(default_options)
+)
+xnoremap(
+	"<leader>j",
+	":<c-u>execute \"'<,'>move'>+\" . v:count1 <CR>gv",
+	opts.silent(default_options)
+)
+xnoremap(
+	"<leader>k",
+	":<c-u>execute \"'<,'>move'<--\" . v:count1 <CR>gv",
+	opts.silent(default_options)
+)
 
 -- keep the search match in the middle of the window when jumping
 nmap("n", "nzz", default_options)
@@ -65,7 +81,11 @@ xnoremap(">", ">gv", default_options)
 
 -- don't move the cursor when yanking
 -- See http://ddrscott.github.io/blog/2016/yank-without-jank/
-vnoremap("y", makeExpr('my\\"" . v:register . "y`y'), opts.expr(default_options))
+vnoremap(
+	"y",
+	makeExpr('my\\"" . v:register . "y`y'),
+	opts.expr(default_options)
+)
 
 -- mark the current line and add a line at the beggining and end of the file
 nnoremap("<leader>o", "moGGo", default_options)
@@ -121,4 +141,8 @@ nnoremap("<leader>a", "ea", default_options)
 tnoremap("<Leader>q", "<C-\\><C-n>", default_options)
 
 -- make <leader>Q quit neovim
-nnoremap("<leader>Q", '&diff ? ":windo bd<CR>" : ":quit<CR>"', opts.expr(opts.silent(default_options)))
+nnoremap(
+	"<leader>Q",
+	'&diff ? ":windo bd<CR>" : ":quit<CR>"',
+	opts.expr(opts.silent(default_options))
+)

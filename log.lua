@@ -50,7 +50,15 @@ for i, x in ipairs(modes) do
 		local lineinfo = info.short_src .. ":" .. info.currentline
 
 		-- Output to console
-		print(string.format("[%-6s%s] %s: %s", nameupper, os.date("%H:%M:%S"), lineinfo, msg))
+		print(
+			string.format(
+				"[%-6s%s] %s: %s",
+				nameupper,
+				os.date("%H:%M:%S"),
+				lineinfo,
+				msg
+			)
+		)
 	end
 end
 
