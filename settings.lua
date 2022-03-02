@@ -59,6 +59,7 @@ local settings = {
 	tabstop = 2, -- use 2 spaces for a tab
 	termguicolors = true, -- use true colors
 	textwidth = 80, -- wrap text at 80 chars
+	undofile = true, -- undo persist even if you close the file
 	wrap = false, -- don't wrap text, make it a long line
 	wildmenu = true, -- enhanced tab completion for the ex command line
 	wildmode = "full:longest,list,full", -- complete the longest common part of the word
