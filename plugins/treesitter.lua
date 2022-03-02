@@ -2,7 +2,12 @@ local treesitter = {
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	run = ":TSUpdate",
 	config = function()
-		local tsconfig = require("nvim-treesitter.configs")
+		local safe_require = require("nebula.helpers.require").safe_require
+		local tsconfig = safe_require("nvim-treesitter.configs")
+
+		if not tsconfig then
+			return
+		end
 
 		tsconfig.setup({
 			ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages

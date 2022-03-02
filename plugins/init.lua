@@ -7,6 +7,8 @@ if Nebula.options.install_packer then
 
 	-- Automatically install packer if not installed
 	if fn.empty(fn.glob(install_path)) > 0 then
+		log.temporary_level("info")
+		log.info("packer.nvim not found. Installing…")
 		PACKER_BOOTSTRAP = fn.system({
 			"git",
 			"clone",
@@ -14,8 +16,11 @@ if Nebula.options.install_packer then
 			"1",
 			"https://github.com/wbthomason/packer.nvim",
 			install_path,
+			"-q",
 		})
-		log.info("Installing packer…")
+		vim.cmd([[redraw!]])
+		log.info("packer.nvim installed. Installing plugins…")
+		log.restore_level()
 		vim.cmd([[packadd packer.nvim]])
 	end
 end

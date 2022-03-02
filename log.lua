@@ -2,6 +2,7 @@
 local log = {}
 
 log.level = NEBULA_LOG_LEVEL or "error" -- use error by default
+log.prev_level = log.level
 
 local modes = {
 	{ name = "trace" },
@@ -16,6 +17,7 @@ local levels = {}
 for i, v in ipairs(modes) do
 	levels[v.name] = i
 end
+log.levels = levels
 
 local round = function(x, increment)
 	increment = increment or 1
@@ -35,6 +37,17 @@ local tostring = function(...)
 		t[#t + 1] = _tostring(x)
 	end
 	return table.concat(t, " ")
+end
+
+log.restore_level = function()
+	log.level = log.prev_level
+end
+
+log.temporary_level = function(new_level)
+	log.prev_level = log.level
+	if log.levels[log.prev_level] > log.levels[new_level] then
+		log.level = new_level
+	end
 end
 
 for i, x in ipairs(modes) do
