@@ -31,6 +31,9 @@ local plugins = {
 	packer = plugin("packer"),
 	treesitter = plugin("treesitter"),
 	catppuccin = colorscheme("catppuccin"),
+	autopairs = plugin("autopairs"),
+	comment = plugin("comment"),
+	telescope = plugin("telescope"),
 }
 
 return plugins

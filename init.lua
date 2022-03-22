@@ -12,6 +12,7 @@ NEBULA_LOG_LEVEL = NEBULA_LOG_LEVEL or "error"
 _G.Nebula = {
 	options = nebula_default_options,
 	default_colorscheme = "catppuccin",
+	plugin_options = {},
 }
 
 Nebula.use = require("nebula.helpers.plugins").use

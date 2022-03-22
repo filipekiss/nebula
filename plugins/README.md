@@ -108,3 +108,86 @@ Nebula.init({ colorscheme = "rose-pine" })
 ```
 
 Restart your Neovim and run `:PackerInstall` and you're done!
+
+## Changing plugin settings
+
+Nebula ships with some plugins by default and has some settings to make it
+usable out of the box. But since the goal is ultimate customization, I wanted to
+make things easy to change. There are two ways to customize plugins, one which
+is a little bit simpler but is very specific to Nebula, and a more advanced way
+that allows you to customize anything about the plugin and you can re-use the
+configuration if you ever decide to ditch Nebula.
+
+### Changing Nebula Plugin Settings
+
+These settings are loaded by Nebula (usually) during the `config` step of the
+plugin. These options are **always** merged, so if you wish to change it in a
+way that the plugin doesn't load any Nebula settings, see the [Advanced Plugin
+Customization](#advanced-plugin-customization) section.
+
+The plugins are customized using the `Nebula.plugin_options` table. You just
+need to add a key with the plugin name. To change the `prompt_prefix` option
+from Telescope, you can do the following:
+
+```
+--- init.lua
+Nebula = require("nebula")
+Nebula.plugin_options.telescope = {
+    defaults = {
+      prompt_prefix = "> "
+    }
+  }
+Nebula.init()
+```
+
+As you can see, the table set in `Nebula.plugin_options.telescope` is the same
+used by `telescope.setup()` function. I always try to keep Nebula customization
+as close to the original plugin as possible, since that will allow you to easily
+drop Nebula and re-use the configuration in your own setup.
+
+I'll update the documentation with all the options for every plugin that ships
+with Nebula in a later date.
+
+### Advanced Plugin Customization
+
+Since Nebula's goal is to get out of your way, when it comes to customize
+plugins I tried to make it simple yet powerful. The `Nebula.plugin_options`
+exists so people who are happy with Nebula default configuration can just change
+one or two things, but if you wish to undo a lot of Nebula customization or do
+some more advanced stuff, you should configure plugins using the advanced
+configuration. 
+
+Much like [adding a new plugin](#adding-a-new-plugin), customizing a plugin that ships with Nebula
+works just the same. To customize Telescope, create a file in
+`lua/user/plugins/telescope.lua`, which returns a table that can be used by
+`packer.nvim`, much like adding a new plugin. This table will be merged with
+Nebula default table and everything that you set on your table will override
+Nebula's default table. So if you want to override the whole `config` for
+Telescope, you can do the following:
+
+```
+--- lua/user/plugins/telescope.lua
+return {
+  config = function()
+   --- ... your custom config function here
+  end
+}
+```
+
+This will merge your Telescope configuration with the one shipped with Nebula,
+keeping  you `config` instead of the one we ship. 
+
+This also allows you to use your own fork of any the shipped plugins. Let's say
+you have your own fork of Telescope that you wish to use, but you wish to keep
+Nebula's configuration. All you have to do is return a table with the first
+element being the repository URL of your own fork:
+
+```
+--- lua/user/plugins/telescope.lua
+return {
+  "https://github.com/my-user/my-telescope-fork"
+}
+```
+
+This will use the repository to install the telescope plugin from this URL, but
+will still use Nebula configuration for it.
