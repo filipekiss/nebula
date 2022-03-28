@@ -19,6 +19,11 @@ function plugins_helper.colorscheme(colorscheme_name)
 	)
 	local user_colorscheme = table_require(user_colorscheme_name)
 	local nebula_colorscheme = table_require(nebula_colorscheme_name)
+	if user_colorscheme then
+		log.trace(
+			string.format("Found user colorscheme %s", user_colorscheme_name)
+		)
+	end
 	local colorscheme_config = vim.tbl_deep_extend(
 		"force",
 		nebula_colorscheme or {},
@@ -50,6 +55,9 @@ function plugins_helper.plugin(plugin_name)
 	local nebula_plugin_name = string.format("nebula.plugins.%s", plugin_name)
 	local user_plugin = table_require(user_plugin_name)
 	local nebula_plugin = table_require(nebula_plugin_name)
+	if user_plugin then
+		log.trace(string.format("Found user plugin %s", user_plugin_name))
+	end
 	local plugin_config = vim.tbl_deep_extend(
 		"force",
 		nebula_plugin or {},

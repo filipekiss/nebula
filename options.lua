@@ -10,6 +10,7 @@ local nebula_options = {
 	install_packer = true,
 	packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim",
 	packer_float_window = true,
+	active_plugins = {},
 }
 
 return nebula_options

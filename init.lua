@@ -9,6 +9,8 @@ local colorscheme = require("nebula.helpers.plugins").colorscheme
 
 NEBULA_LOG_LEVEL = NEBULA_LOG_LEVEL or "error"
 
+log.debug("Starting Nebula")
+
 _G.Nebula = {
 	options = nebula_default_options,
 	default_colorscheme = "catppuccin",
