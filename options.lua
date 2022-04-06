@@ -8,6 +8,7 @@ local nebula_options = {
 	enable_settings = true,
 	user_namespace = "user",
 	install_packer = true,
+	auto_sync_packer = true,
 	packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim",
 	packer_float_window = true,
 	active_plugins = {},

@@ -24,7 +24,7 @@ Nebula.colorscheme = colorscheme
 
 local function script_path()
 	local str = debug.getinfo(2, "S").source:sub(2)
-	return str:match("(.*/)")
+	return str:match("(.*)/")
 end
 
 Nebula.load_settings = function()
@@ -68,18 +68,7 @@ Nebula.load_plugins = function()
 		return
 	end
 
-	local packer_config = {}
-
-	if Nebula.options.packer_float_window == true then
-		packer_config = vim.tbl_extend("keep", packer_config, {
-			display = {
-				open_fn = function()
-					-- configure packer to use a floating window
-					return require("packer.util").float({ border = "rounded" })
-				end,
-			},
-		})
-	end
+	local packer_config = plugin("packer")
 
 	local user_plugins = require("nebula.helpers.plugins").user_plugins
 	Nebula.all_plugins = vim.tbl_extend(
@@ -107,7 +96,7 @@ Nebula.load_plugins = function()
 		packer.use(plugin_config)
 	end
 
-	if PACKER_BOOTSTRAP then
+	if PACKER_BOOTSTRAP and Nebula.options.auto_sync_packer then
 		require("packer").sync()
 		-- Try to apply the user colorscheme after everything is installed,
 		-- otherwise use catppuccin
