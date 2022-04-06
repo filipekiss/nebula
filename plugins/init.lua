@@ -36,6 +36,7 @@ local plugins = {
 	telescope = plugin("telescope"),
 	completion = plugin("completion"),
 	lsp = plugin("lsp"),
+	filetype = plugin("filetype"),
 }
 
 return plugins
