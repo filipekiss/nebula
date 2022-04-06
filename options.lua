@@ -15,6 +15,7 @@ local nebula_options = {
 	lsp = {
 		format_on_save = true,
 	},
+	cursorhold = 100,
 }
 
 return nebula_options

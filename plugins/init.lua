@@ -37,6 +37,7 @@ local plugins = {
 	completion = plugin("completion"),
 	lsp = plugin("lsp"),
 	filetype = plugin("filetype"),
+	["fix-cursor-hold"] = plugin("fix-cursor-hold"),
 }
 
 return plugins

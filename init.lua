@@ -92,7 +92,8 @@ Nebula.load_plugins = function()
 		end
 	end
 
-	for _, plugin_config in pairs(Nebula.active_plugins) do
+	for plugin_name, plugin_config in pairs(Nebula.active_plugins) do
+    log.trace(string.format("Adding %s to packer plugin list", plugin_name))
 		packer.use(plugin_config)
 	end
 
