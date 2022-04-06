@@ -11,6 +11,9 @@ local nebula_options = {
 	packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim",
 	packer_float_window = true,
 	active_plugins = {},
+	lsp = {
+		format_on_save = true,
+	},
 }
 
 return nebula_options

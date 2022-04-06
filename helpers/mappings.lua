@@ -43,9 +43,14 @@ mapping_helper.keymap = function(mode, from, to, options)
 		end
 		used_options["no_override"] = nil
 	end
-	if used_options.buffer == true then
-		used_options["buffer"] = nil
+	if used_options.buffer then
 		local bufnr = vim.api.nvim_win_get_buf(0)
+		-- if used_options.buffer is a number, use it as bufnr instead of using the
+		-- bufnr from above
+		if type(used_options.buffer) == "number" then
+			bufnr = used_options.buffer
+		end
+		used_options["buffer"] = nil
 		return vim.api.nvim_buf_set_keymap(bufnr, mode, from, to, used_options)
 	end
 	return vim.api.nvim_set_keymap(mode, from, to, used_options)
