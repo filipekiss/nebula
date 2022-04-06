@@ -34,6 +34,7 @@ local plugins = {
 	autopairs = plugin("autopairs"),
 	comment = plugin("comment"),
 	telescope = plugin("telescope"),
+	completion = plugin("completion"),
 }
 
 return plugins
