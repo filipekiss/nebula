@@ -26,6 +26,11 @@ local treesitter = {
 				enable = true,
 				enable_autocmd = false,
 			},
+			rainbow = { -- configuration for rainbow parenthesis https://github.com/p00f/nvim-ts-rainbow#installation-and-setup
+				enable = true,
+				extended_mode = true,
+				max_file_lines = 5000, -- disable for files longer than 5000 lines
+			},
 		})
 	end,
 }

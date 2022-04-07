@@ -38,6 +38,7 @@ local plugins = {
 	lsp = plugin("lsp"),
 	filetype = plugin("filetype"),
 	["fix-cursor-hold"] = plugin("fix-cursor-hold"),
+	rainbow = plugin("rainbow"),
 }
 
 return plugins
