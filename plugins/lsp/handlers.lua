@@ -4,16 +4,18 @@ local common = { capabilities = nil }
 local function lsp_highlight_document(client)
 	-- Set autocommands conditional on server_capabilities
 	if client.resolved_capabilities.document_highlight then
-		vim.api.nvim_exec(
-			[[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]],
-			false
-		)
+		local augroup = require("nebula.helpers.autocmd").augroup
+		local fn_cmd = require("nebula.helpers.nvim").fn_cmd
+		augroup("LspHighlight", {
+			{
+				events = { "CursorHold" },
+				command = fn_cmd(vim.lsp.buf.document_highlight),
+			},
+			{
+				events = { "CursorMoved" },
+				command = fn_cmd(vim.lsp.buf.clear_references),
+			},
+		}, { buffer = true })
 	end
 end
 
@@ -46,7 +48,10 @@ local function lsp_mappings(bufnr)
 		opts
 	)
 	nnoremap("<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-	-- require("helpers.nvim").add_user_command("Format", vim.lsp.buf.formatting)
+	require("nebula.helpers.nvim").add_user_command(
+		"Format",
+		vim.lsp.buf.formatting
+	)
 end
 
 local format_on_save = function()
@@ -63,7 +68,7 @@ local function lsp_format(client)
 	end
 	local fn_cmd = require("nebula.helpers.nvim").fn_cmd
 	if client.resolved_capabilities.document_formatting then
-		local augroup = require("helpers.autocmd").augroup
+		local augroup = require("nebula.helpers.autocmd").augroup
 		augroup("LspFormatting", {
 			{
 				events = { "BufWritePre" },
