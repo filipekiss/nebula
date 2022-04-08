@@ -31,6 +31,7 @@ local colorscheme = require("nebula.helpers.plugins").nebula_colorscheme
 plugin("packer")
 plugin("treesitter")
 plugin("autopairs")
+plugin("autotag")
 plugin("comment")
 plugin("telescope")
 plugin("completion")
