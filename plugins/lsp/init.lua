@@ -1,4 +1,4 @@
-local plugin = require("nebula.helpers.plugins").plugin
+local plugin = require("nebula.helpers.plugins").nebula_plugin
 
 local lsp_config = {
 	"https://github.com/neovim/nvim-lspconfig",

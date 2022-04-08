@@ -9,8 +9,6 @@ local colorscheme = require("nebula.helpers.plugins").colorscheme
 
 NEBULA_LOG_LEVEL = NEBULA_LOG_LEVEL or "error"
 
-log.debug("Starting Nebula")
-
 _G.Nebula = {
 	options = nebula_default_options,
 	default_colorscheme = "catppuccin",
@@ -59,7 +57,7 @@ Nebula.load_plugins = function()
 	-- Load Nebula Plugins
 	-- This is responsible for installing packer.nvim if not installed and loading
 	-- the plugins
-	local nebula_plugins = require("nebula.plugins")
+	require("nebula.plugins")
 
 	local packer = safe_require("packer")
 
@@ -70,31 +68,44 @@ Nebula.load_plugins = function()
 
 	local packer_config = plugin("packer")
 
-	local user_plugins = require("nebula.helpers.plugins").user_plugins
+	local plugins_helper = require("nebula.helpers.plugins")
+	local nebula_plugins = plugins_helper.nebula_plugins
+	local nebula_plugins_order = plugins_helper.nebula_plugins_order
+	local user_plugins = plugins_helper.user_plugins
+	local user_plugins_order = plugins_helper.user_plugins_order
 	Nebula.all_plugins = vim.tbl_extend(
 		"force",
-		nebula_plugins,
-		user_plugins,
-		Nebula.options.active_plugins or {}
+		nebula_plugins_order,
+		user_plugins_order
 	)
 
 	packer.init(packer_config)
 	packer.reset()
 
-	Nebula.active_plugins = {}
-
-	for key, value in pairs(Nebula.all_plugins) do
-		if value == false then
-			log.info(string.format("%s is disabled, skipping", key))
+	for _, plugin_name in ipairs(Nebula.all_plugins) do
+		-- Check if the plugins has been disabled in Nebula.options
+		if Nebula.options.active_plugins[plugin_name] == false then
+			log.info(string.format("%s is disabled, skipping", plugin_name))
+			goto skip_to_next
 		end
-		if type(value) == "table" then
-			Nebula.active_plugins[key] = value
+		local plugin_config = {}
+		-- Check if this is a Nebula plugin
+		if type(nebula_plugins[plugin_name]) == "table" then
+			plugin_config = vim.tbl_deep_extend(
+				"force",
+				plugin_config,
+				nebula_plugins[plugin_name]
+			)
 		end
-	end
-
-	for plugin_name, plugin_config in pairs(Nebula.active_plugins) do
-    log.trace(string.format("Adding %s to packer plugin list", plugin_name))
+		log.trace(string.format("Adding %s to packer plugin list", plugin_name))
+		if user_plugins[plugin_name] then
+			log.trace(
+				string.format("Loaded user configuration for %s", plugin_name)
+			)
+		end
 		packer.use(plugin_config)
+		-- This is used to skip calculations if a plugin is disabled
+		::skip_to_next::
 	end
 
 	if PACKER_BOOTSTRAP and Nebula.options.auto_sync_packer then
@@ -111,6 +122,7 @@ Nebula.load_plugins = function()
 end
 
 Nebula.init = function(options)
+	log.debug("Bootstraping Nebula")
 	if options then
 		if type(options) ~= "table" then
 			log.warn(
@@ -121,24 +133,30 @@ Nebula.init = function(options)
 			Nebula.options = vim.tbl_extend("force", Nebula.options, options)
 		end
 	end
-	log.debug("Bootstraping Nebula")
 	Nebula.path = script_path()
 	log.debug("Nebula Path: " .. Nebula.path)
 	log.debug("Log Level: " .. NEBULA_LOG_LEVEL)
-
 	log.debug("Initiating Nebula")
 
 	if Nebula.options.enable_settings == true then
 		log.debug("Loading Settings")
 		Nebula.load_settings()
+	else
+		log.debug("Nebula Settings disabled. Skipping…")
 	end
 
-	log.debug("Loading Mappings")
-	Nebula.load_mappings()
+	if Nebula.options.enable_mappings == true then
+		log.debug("Loading Nebula Mappings")
+		Nebula.load_mappings()
+	else
+		log.debug("Nebula Mappings disabled. Skipping…")
+	end
 
 	if Nebula.options.enable_plugins == true then
 		log.debug("Loading Plugins")
 		Nebula.load_plugins()
+	else
+		log.debug("Nebula Plugins disabled. Skipping…")
 	end
 
 	-- Try to apply the user set colorscheme

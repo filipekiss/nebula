@@ -1,4 +1,4 @@
-local plugin = require("nebula.helpers.plugins").plugin
+local plugin = require("nebula.helpers.plugins").nebula_plugin
 local completion = {
 	"https://github.com/hrsh7th/nvim-cmp", -- The completion plugin
 

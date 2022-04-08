@@ -1,4 +1,4 @@
-local plugin = require("nebula.helpers.plugins").plugin
+local plugin = require("nebula.helpers.plugins").nebula_plugin
 
 local telescope = {
 	"https://github.com/nvim-telescope/telescope.nvim",

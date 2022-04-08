@@ -25,20 +25,17 @@ if Nebula.options.install_packer then
 	end
 end
 
-local plugin = require("nebula.helpers.plugins").plugin
-local colorscheme = require("nebula.helpers.plugins").colorscheme
-local plugins = {
-	packer = plugin("packer"),
-	treesitter = plugin("treesitter"),
-	catppuccin = colorscheme("catppuccin"),
-	autopairs = plugin("autopairs"),
-	comment = plugin("comment"),
-	telescope = plugin("telescope"),
-	completion = plugin("completion"),
-	lsp = plugin("lsp"),
-	filetype = plugin("filetype"),
-	["fix-cursor-hold"] = plugin("fix-cursor-hold"),
-	rainbow = plugin("rainbow"),
-}
-
-return plugins
+local plugin = require("nebula.helpers.plugins").nebula_plugin
+local colorscheme = require("nebula.helpers.plugins").nebula_colorscheme
+-- use the helpers to register the plugins
+plugin("packer")
+plugin("treesitter")
+plugin("autopairs")
+plugin("comment")
+plugin("telescope")
+plugin("completion")
+plugin("lsp")
+plugin("filetype")
+plugin("fix-cursor-hold")
+plugin("rainbow")
+colorscheme("catppuccin")
