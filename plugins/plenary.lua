@@ -1,5 +1,3 @@
-local plenary = {
+return {
 	"https://github.com/nvim-lua/plenary.nvim",
 }
-
-return plenary

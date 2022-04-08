@@ -1,4 +1,4 @@
-local comment = {
+return {
 	"https://github.com/numToStr/Comment.nvim",
 	config = function()
 		local comment = require("Comment")
@@ -32,5 +32,3 @@ local comment = {
 		"https://github.com/JoosepAlviste/nvim-ts-context-commentstring", -- add support for jsx comment strings
 	},
 }
-
-return comment

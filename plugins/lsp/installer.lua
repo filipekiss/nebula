@@ -1,4 +1,4 @@
-local lsp_installer = {
+return {
 	"https://github.com/williamboman/nvim-lsp-installer",
 	config = function()
 		local safe_require = require("nebula.helpers.require").safe_require
@@ -40,5 +40,3 @@ local lsp_installer = {
 		end)
 	end,
 }
-
-return lsp_installer

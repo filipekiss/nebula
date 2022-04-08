@@ -1,6 +1,6 @@
 local plugin = require("nebula.helpers.plugins").nebula_plugin
 
-local lsp_config = {
+return {
 	"https://github.com/neovim/nvim-lspconfig",
 	requires = {
 		plugin("lsp.installer"),
@@ -47,5 +47,3 @@ local lsp_config = {
 		vim.g.lsp_format_on_save = 1
 	end,
 }
-
-return lsp_config

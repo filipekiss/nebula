@@ -1,4 +1,4 @@
-local treesitter = {
+return {
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	run = ":TSUpdate",
 	config = function()
@@ -34,5 +34,3 @@ local treesitter = {
 		})
 	end,
 }
-
-return treesitter

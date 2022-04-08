@@ -1,6 +1,6 @@
 local plugin = require("nebula.helpers.plugins").nebula_plugin
 
-local telescope = {
+return {
 	"https://github.com/nvim-telescope/telescope.nvim",
 	requires = { plugin("plenary") },
 	config = function()
@@ -93,5 +93,3 @@ local telescope = {
 		)
 	end,
 }
-
-return telescope
