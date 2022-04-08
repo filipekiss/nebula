@@ -3,8 +3,6 @@ local log = require("nebula.log")
 local plugins_helper = {
 	user_plugins = {},
 	nebula_plugins = {},
-	user_colorschemes = {},
-	nebula_colorschemes = {},
 	nebula_plugins_order = {},
 	user_plugins_order = {},
 }
@@ -43,7 +41,7 @@ local function register_plugin(
 	if next(plugin_config) == nil then
 		log.warn(
 			string.format(
-				"Tried to load plugin '%s', but no plugin with that name was found",
+				"Tried to load plugin '%s', but the configuration came up empty",
 				plugin_name
 			)
 		)
@@ -76,7 +74,7 @@ local function register_user_colorscheme(plugin_name)
 	return register_plugin(
 		"colorschemes",
 		plugins_helper.user_plugins_order,
-		plugins_helper.user_colorschemes,
+		plugins_helper.user_plugins,
 		plugin_name
 	)
 end
@@ -85,7 +83,7 @@ local function register_nebula_colorscheme(plugin_name)
 	return register_plugin(
 		"colorschemes",
 		plugins_helper.nebula_plugins_order,
-		plugins_helper.nebula_colorschemes,
+		plugins_helper.nebula_plugins,
 		plugin_name
 	)
 end
