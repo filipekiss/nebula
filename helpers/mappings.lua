@@ -22,6 +22,22 @@ local is_mapped = function(mode, mapping)
 	return nil
 end
 
+local translate = function(key, use_leader_notation)
+	use_leader_notation = use_leader_notation or false
+	if key == vim.g.mapleader and use_leader_notation then
+		return "<leader>"
+	end
+	if key == vim.g.maplocalleader and use_leader_notation then
+		return "<localleader>"
+	end
+	if key == " " then
+		return "Space"
+	end
+	return key
+end
+
+mapping_helper.translate = translate
+
 mapping_helper.is_mapped = is_mapped
 
 mapping_helper.keymap = function(mode, from, to, options)
