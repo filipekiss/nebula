@@ -73,11 +73,17 @@ Nebula.load_plugins = function()
 	local nebula_plugins_order = plugins_helper.nebula_plugins_order
 	local user_plugins = plugins_helper.user_plugins
 	local user_plugins_order = plugins_helper.user_plugins_order
-	Nebula.all_plugins = vim.tbl_extend(
-		"force",
-		nebula_plugins_order,
-		user_plugins_order
-	)
+	Nebula.all_plugins = {}
+	for _, plugin_name in ipairs(nebula_plugins_order) do
+		table.insert(Nebula.all_plugins, plugin_name)
+	end
+	for _, plugin_name in ipairs(user_plugins_order) do
+		-- only add if the table doesn't yet contain the plugin to avoid adding to
+		-- packer twice
+		if not vim.tbl_contains(Nebula.all_plugins, plugin_name) then
+			table.insert(Nebula.all_plugins, plugin_name)
+		end
+	end
 
 	packer.init(packer_config)
 	packer.reset()
@@ -97,12 +103,17 @@ Nebula.load_plugins = function()
 				nebula_plugins[plugin_name]
 			)
 		end
-		log.trace(string.format("Adding %s to packer plugin list", plugin_name))
 		if user_plugins[plugin_name] then
 			log.trace(
 				string.format("Loaded user configuration for %s", plugin_name)
 			)
+			plugin_config = vim.tbl_deep_extend(
+				"force",
+				plugin_config,
+				user_plugins[plugin_name]
+			)
 		end
+		log.trace(string.format("Adding %s to packer plugin list", plugin_name))
 		packer.use(plugin_config)
 		-- This is used to skip calculations if a plugin is disabled
 		::skip_to_next::
