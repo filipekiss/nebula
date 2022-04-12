@@ -8,6 +8,8 @@ return {
 
 		nnoremap("<leader><leader>", "<cmd>Telescope find_files<CR>")
 		nnoremap("<tab>", "<cmd>Telescope buffers<CR>")
+		nnoremap("<leader>fh", "<cmd>Telescope oldfiles<CR>")
+		nnoremap("<leader>fg", "<cmd>Telescope live_grep<CR>")
 
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
