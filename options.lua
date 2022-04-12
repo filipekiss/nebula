@@ -3,6 +3,7 @@
 local fn = vim.fn
 
 local nebula_options = {
+	leader = " ",
 	enable_mappings = true,
 	enable_plugins = true,
 	enable_settings = true,

@@ -30,8 +30,8 @@ local makeExpr = require("nebula.helpers.mappings").expr
 -- @TODO: Add options to disable individual mappings
 
 -- Set the Leader key to Space
-leader(" ")
-localleader(" ")
+leader(Nebula.options.leader)
+localleader(Nebula.options.leader)
 
 local default_options = opts.no_override()
 -- use arrows to resize windows
