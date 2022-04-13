@@ -3,7 +3,6 @@ return {
 	config = function()
 		local safe_require = require("nebula.helpers.require").safe_require
 		local lsp_installer = safe_require("nvim-lsp-installer")
-		local lsp_installer_servers = safe_require("nvim-lsp-installer.servers")
 
 		lsp_installer.settings({
 			ui = {
@@ -31,8 +30,8 @@ return {
 			if nebula_server_settings then
 				opts = vim.tbl_deep_extend(
 					"force",
-					nebula_server_settings,
-					opts
+					opts,
+					nebula_server_settings
 				)
 			end
 

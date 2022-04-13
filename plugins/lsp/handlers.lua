@@ -31,7 +31,6 @@ local function lsp_mappings(bufnr)
 	nnoremap("<leader>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	nnoremap("<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	nnoremap("<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	nnoremap(
 		"[d",
 		'<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>',
@@ -47,7 +46,7 @@ local function lsp_mappings(bufnr)
 		'<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>',
 		opts
 	)
-	nnoremap("<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+	nnoremap("<leader>l", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 	require("nebula.helpers.nvim").add_user_command(
 		"Format",
 		vim.lsp.buf.formatting
@@ -58,7 +57,7 @@ local format_on_save = function()
 	local global_save = vim.g.lsp_format_on_save
 	local buffer_save = vim.b.lsp_format_on_save
 	if global_save == 1 or buffer_save == 1 then
-		vim.lsp.buf.formatting_sync()
+		vim.lsp.buf.formatting_seq_sync()
 	end
 end
 
@@ -69,7 +68,7 @@ local function lsp_format(client)
 	local fn_cmd = require("nebula.helpers.nvim").fn_cmd
 	if client.resolved_capabilities.document_formatting then
 		local augroup = require("nebula.helpers.autocmd").augroup
-		augroup("LspFormatting", {
+		augroup("NebulaLspFormatting", {
 			{
 				events = { "BufWritePre" },
 				targets = { "<buffer>" },

@@ -10,6 +10,7 @@ return {
 		nnoremap("<tab>", "<cmd>Telescope buffers<CR>")
 		nnoremap("<leader>fh", "<cmd>Telescope oldfiles<CR>")
 		nnoremap("<leader>fg", "<cmd>Telescope live_grep<CR>")
+		nnoremap("<leader>fd", "<cmd>Telescope diagnostics<CR>")
 
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
