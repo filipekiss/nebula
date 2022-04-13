@@ -98,6 +98,37 @@ function mapping_helper.localleader(leader_key)
 	vim.g.maplocalleader = leader_key
 end
 
+local function keymap_string(mode, from, to, options)
+	local opt_string = function(option)
+		return string.format("<%s>", option)
+	end
+
+	local map_mode = mode
+	if options.noremap == true then
+		map_mode = map_mode .. "noremap"
+	else
+		map_mode = map_mode .. "map"
+	end
+	local used_options = {}
+	if options.expr == true then
+		table.insert(used_options, opt_string("expr"))
+	end
+	if options.buffer == true then
+		table.insert(used_options, opt_string("buffer"))
+	end
+	if options.silent == true then
+		table.insert(used_options, opt_string("silent"))
+	end
+
+	return string.format(
+		"%s %s %s %s",
+		map_mode,
+		table.concat(used_options, " "),
+		from,
+		to
+	)
+end
+
 -- makemapper is a wrapper function fo make it easier to create mappings for different modes
 -- refer to the mapping functions defined afterwards to see how it works
 local function makemapper(mode, default_opts)
@@ -105,6 +136,10 @@ local function makemapper(mode, default_opts)
 	return function(from, to, opts)
 		opts = opts or {}
 		local used_options = vim.tbl_extend("force", default_opts, opts)
+		if opts.get_string == true then
+			return keymap_string(mode, from, to, used_options)
+		end
+		used_options["buffer"] = nil
 		return mapping_helper.keymap(mode, from, to, used_options)
 	end
 end
@@ -157,6 +192,7 @@ mapping_helper.opts.noexpr = update_options("expr", false)
 mapping_helper.opts.buffer = update_options("buffer", true)
 mapping_helper.opts.nobuffer = update_options("buffer", false)
 mapping_helper.opts.no_override = update_options("no_override", true)
+mapping_helper.opts.get_string = update_options("get_string", true)
 
 -- each function is used to map to a specific mode…
 -- …recursive global

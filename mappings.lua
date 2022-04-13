@@ -146,3 +146,17 @@ nnoremap(
 	'&diff ? ":windo bd<CR>" : ":quit<CR>"',
 	opts.expr(opts.silent(default_options))
 )
+
+-- when selecting an item in quickfix, close it
+local augroup = require("nebula.helpers.autocmd").augroup
+augroup("NebulaQfCloseOnSelect", {
+	{
+		events = { "FileType" },
+		targets = { "qf" },
+		command = nnoremap(
+			"<CR>",
+			"<CR>:cclose<CR>",
+			opts.get_string(opts.buffer(opts.silent()))
+		),
+	},
+})
