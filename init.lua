@@ -66,6 +66,14 @@ Nebula.load_plugins = function()
 		return
 	end
 
+	local add_plugin_to_table = function(table_ref, plugin_name)
+		-- only add if the table doesn't yet contain the plugin to avoid adding to
+		-- packer twice
+		if not vim.tbl_contains(table_ref, plugin_name) then
+			table.insert(table_ref, plugin_name)
+		end
+	end
+
 	local packer_config = plugin("packer")
 
 	local plugins_helper = require("nebula.helpers.plugins")
@@ -73,16 +81,12 @@ Nebula.load_plugins = function()
 	local nebula_plugins_order = plugins_helper.nebula_plugins_order
 	local user_plugins = plugins_helper.user_plugins
 	local user_plugins_order = plugins_helper.user_plugins_order
-	Nebula.all_plugins = {}
+	Nebula.all_plugins = Nebula.configured_plugins or {}
 	for _, plugin_name in ipairs(nebula_plugins_order) do
-		table.insert(Nebula.all_plugins, plugin_name)
+		add_plugin_to_table(Nebula.all_plugins, plugin_name)
 	end
 	for _, plugin_name in ipairs(user_plugins_order) do
-		-- only add if the table doesn't yet contain the plugin to avoid adding to
-		-- packer twice
-		if not vim.tbl_contains(Nebula.all_plugins, plugin_name) then
-			table.insert(Nebula.all_plugins, plugin_name)
-		end
+		add_plugin_to_table(Nebula.all_plugins, plugin_name)
 	end
 
 	packer.init(packer_config)
@@ -95,29 +99,44 @@ Nebula.load_plugins = function()
 			goto skip_to_next
 		end
 		local plugin_config = {}
+		local has_nebula_plugin = false
 		-- Check if this is a Nebula plugin
 		if type(nebula_plugins[plugin_name]) == "table" then
+			log.debug(string.format("Loaded Nebula plugin %s", plugin_name))
 			plugin_config = vim.tbl_deep_extend(
 				"force",
 				plugin_config,
 				nebula_plugins[plugin_name]
 			)
+			has_nebula_plugin = true
 		end
 		if user_plugins[plugin_name] then
-			log.trace(
-				string.format("Loaded user configuration for %s", plugin_name)
-			)
+			log.debug(string.format("Loaded user plugin %s", plugin_name))
 			plugin_config = vim.tbl_deep_extend(
 				"force",
 				plugin_config,
 				user_plugins[plugin_name]
 			)
+			if has_nebula_plugin then
+				log.debug(
+					string.format(
+						"Merged user configuration for %s",
+						plugin_name
+					)
+				)
+			end
 		end
-		log.trace(string.format("Adding %s to packer plugin list", plugin_name))
+		log.debug(string.format("Adding %s to packer plugin list", plugin_name))
+
 		packer.use(plugin_config)
 		-- This is used to skip calculations if a plugin is disabled
 		::skip_to_next::
 	end
+
+	-- After all plugins have been added, clear Nebula.all_plugins so we can add
+	-- new plugins in runtime without restarting Neovim
+	Nebula.configured_plugins = Nebula.all_plugins
+	Nebula.all_plugins = {}
 
 	if PACKER_BOOTSTRAP and Nebula.options.auto_sync_packer then
 		require("packer").sync()
