@@ -99,6 +99,7 @@ local buttons = {
 		button(translate_key(leader, true) .. "fg", "  Find word"),
 		-- button(translate_key(leader, true) .. "fm", "  Jump to bookmarks"),
 		-- button(translate_key(leader, true) .. "sl", "  Open last session"),
+		button("q", "  Quit Neovim", "<cmd>quit! <CR>"),
 	},
 	opts = {
 		spacing = 1,
