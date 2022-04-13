@@ -4,6 +4,7 @@ local fn = vim.fn
 
 local nebula_options = {
 	leader = " ",
+	enable_autocmd = true,
 	enable_mappings = true,
 	enable_plugins = true,
 	enable_settings = true,

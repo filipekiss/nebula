@@ -189,6 +189,11 @@ Nebula.init = function(options)
 		log.debug("Nebula Plugins disabled. Skipping…")
 	end
 
+	if Nebula.options.enable_autocmd == true then
+		log.debug("Registering Nebula autocmd")
+		load_config("autocmd")
+	end
+
 	-- Try to apply the user set colorscheme
 	-- Otherwise, apply Nebula's default
 
