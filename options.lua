@@ -18,6 +18,11 @@ local nebula_options = {
 		format_on_save = true,
 	},
 	cursorhold = 100,
+	display_line_numbers = {
+		disabled = { "alpha", "gitcommit" },
+		enabled = {},
+		enabled_relative = {},
+	},
 }
 
 return nebula_options

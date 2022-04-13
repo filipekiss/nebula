@@ -79,4 +79,40 @@ function functions.set_project_dir()
 	end
 end
 
+function functions.display_line_numbers(mode)
+	local change_setting = require("nebula.helpers.settings").change_setting
+	local filetype = vim.bo.filetype
+	if
+		vim.tbl_contains(Nebula.options.display_line_numbers.disabled, filetype)
+	then
+		change_setting("relativenumber", false)
+		change_setting("number", false)
+		return
+	end
+	if
+		vim.tbl_contains(Nebula.options.display_line_numbers.enabled, filetype)
+	then
+		change_setting("relativenumber", false)
+		change_setting("number", true)
+		return
+	end
+	if
+		vim.tbl_contains(
+			Nebula.options.display_line_numbers.enabled_relative,
+			filetype
+		)
+	then
+		change_setting("relativenumber", true)
+		change_setting("number", true)
+		return
+	end
+	if mode == "i" then
+		change_setting("relativenumber", false)
+		change_setting("number", true)
+		return
+	end
+	change_setting("relativenumber", true)
+	change_setting("number", true)
+end
+
 return functions
