@@ -7,6 +7,12 @@ return {
 			return
 		end
 
+		-- BUG - Disable the nzz and Nzz mappings since they break neoscroll
+		-- https://github.com/karb94/neoscroll.nvim/issues/53
+		local nnoremap = safe_require("nebula.helpers.mappings").nnoremap
+		nnoremap("n", "n")
+		nnoremap("N", "N")
+
 		neoscroll.setup({
 			-- All these keys will be mapped to their corresponding default scrolling animation
 			mappings = {
