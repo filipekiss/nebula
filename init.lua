@@ -1,6 +1,7 @@
 local log = require("nebula.log")
-local get_config = require("nebula.helpers.require").get_config
-local load_config = require("nebula.helpers.require").load_config
+local get_setup = require("nebula.helpers.require").get_setup_file
+local load_setup = require("nebula.helpers.require").load_setup_file
+local get_user_config = require("nebula.helpers.require").get_user_config
 local is_mapped = require("nebula.helpers.mappings").is_mapped
 local nebula_default_options = require("nebula.options")
 local safe_require = require("nebula.helpers.require").safe_require
@@ -30,7 +31,7 @@ Nebula.load_settings = function()
 	-- These settings are the ones that change how Neovim behaves
 	-- Check the file lua/nebula/settings.lua for more info
 	local change_setting = require("nebula.helpers.settings").change_setting
-	local settings = get_config("settings")
+	local settings = get_setup("settings")
 	for setting_name, setting_value in pairs(settings) do
 		change_setting(setting_name, setting_value)
 	end
@@ -50,7 +51,7 @@ Nebula.load_mappings = function()
 	end
 
 	-- Load Nebula Mappings
-	load_config("mappings")
+	load_setup("mappings")
 end
 
 Nebula.load_plugins = function()
@@ -191,12 +192,12 @@ Nebula.init = function(options)
 
 	if Nebula.options.enable_autocmd == true then
 		log.debug("Registering Nebula autocmd")
-		load_config("autocmd")
+		load_setup("autocmd")
 	end
 
 	if Nebula.options.enable_commands == true then
 		log.debug("Registering Nebula commands")
-		load_config("commands")
+		load_setup("commands")
 	end
 
 	-- Try to apply the user set colorscheme
