@@ -8,6 +8,7 @@ return {
 			return
 		end
 
-		autotag.setup()
+		local get_config = require("nebula.helpers.require").get_user_config
+		autotag.setup(get_config("autotag"))
 	end,
 }

@@ -6,14 +6,9 @@ return {
 		if not autopairs then
 			return
 		end
-		autopairs.setup({
-			check_ts = true, -- check for TreeSitter support, see https://github.com/windwp/nvim-autopairs#treesitter
-			ts_config = {
-				lua = { "string", "source" },
-				javascript = { "string", "template_string" },
-			},
-			disable_filetype = { "TelescopePrompt" },
-		})
+
+		local get_config = require("nebula.helpers.require").get_user_config
+		autopairs.setup(get_config("autopairs"))
 
 		-- if cmp is enabled, hook autopairs with cmp
 		-- see https://github.com/windwp/nvim-autopairs#you-need-to-add-mapping-cr-on-nvim-cmp-setupcheck-readmemd-on-nvim-cmp-repo

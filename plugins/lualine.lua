@@ -8,10 +8,7 @@ return {
 			return
 		end
 
-		lualine.setup({
-			options = {
-				theme = "catppuccin",
-			},
-		})
+		local get_config = require("nebula.helpers.require").get_user_config
+		lualine.setup(get_config("lualine"))
 	end,
 }

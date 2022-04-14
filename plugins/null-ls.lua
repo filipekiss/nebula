@@ -9,19 +9,8 @@ return {
 			return
 		end
 
-		local formatting = null_ls.builtins.formatting
-		null_ls.setup({
-			debug = true,
-			on_attach = require("nebula.plugins.lsp.handlers").on_attach,
-			sources = {
-				-- these sources require external tools that should be installed on the
-				-- system and availbable in the $PATH
-				-- Right next to each plugin I added a comment with the command that you
-				-- can use to install these dependencies
-				formatting.prettier, -- volta install prettier
-				formatting.stylua, -- cargo install stylua
-			},
-		})
+		local get_config = require("nebula.helpers.require").get_user_config
+		null_ls.setup(get_config("null-ls"))
 	end,
 	requires = { plugin("plenary") },
 }

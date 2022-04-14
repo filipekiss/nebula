@@ -8,19 +8,7 @@ return {
 			return
 		end
 
-		toggleterm.setup({
-			size = 20,
-			open_mapping = [[<c-\>]],
-			hide_numbers = true,
-			shade_filetypes = {},
-			shade_terminals = true,
-			shading_factor = 2,
-			start_in_insert = true,
-			insert_mappings = true,
-			persist_size = true,
-			direction = "horizontal",
-			close_on_exit = true,
-			shell = vim.o.shell,
-		})
+		local get_config = require("nebula.helpers.require").get_user_config
+		toggleterm.setup(get_config("toggleterm"))
 	end,
 }

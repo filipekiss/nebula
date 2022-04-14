@@ -12,6 +12,7 @@ return {
 			vim.g.did_load_filetypes = 1
 		end
 
-		filetype.setup({})
+		local get_config = require("nebula.helpers.require").get_user_config
+		filetype.setup(get_config("filetype"))
 	end,
 }
