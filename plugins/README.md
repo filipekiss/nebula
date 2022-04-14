@@ -107,7 +107,7 @@ Nebula.colorscheme("rosepine")
 Nebula.init({ colorscheme = "rose-pine" })
 ```
 
-Restart your Neovim and run `:PackerInstall` and you're done!
+Restart your Neovim and run `:PackerSync` and you're done!
 
 ## Changing plugin settings
 
@@ -125,25 +125,26 @@ plugin. These options are **always** merged, so if you wish to change it in a
 way that the plugin doesn't load any Nebula settings, see the [Advanced Plugin
 Customization](#advanced-plugin-customization) section.
 
-The plugins are customized using the `Nebula.plugin_options` table. You just
-need to add a key with the plugin name. To change the `prompt_prefix` option
-from Telescope, you can do the following:
+Nebula loads the plugin configurations from `lua/user/config` folder. All you
+have to do is add a file with the same name as the plugin file to the folder
+(check `lua/nebula/plugins` to see the plugin name, it's the same name as the
+file).
+
+To change the prefix for Telescope, for example, you would create a file in
+`lua/user/config/telescope.lua` that returns the configuration used by the
+`telescope.setup()` function:
 
 ```
---- init.lua
-Nebula = require("nebula")
-Nebula.plugin_options.telescope = {
+--- lua/user/config/telescope.lua
+return {
     defaults = {
       prompt_prefix = "> "
     }
   }
-Nebula.init()
 ```
 
-As you can see, the table set in `Nebula.plugin_options.telescope` is the same
-used by `telescope.setup()` function. I always try to keep Nebula customization
-as close to the original plugin as possible, since that will allow you to easily
-drop Nebula and re-use the configuration in your own setup.
+The table has nothing special about it, it's just the same keys and values that
+you can find in the [Telescope documentation](https://github.com/nvim-telescope/telescope.nvim#telescope-setup-structure).
 
 I'll update the documentation with all the options for every plugin that ships
 with Nebula in a later date.
@@ -151,7 +152,7 @@ with Nebula in a later date.
 ### Advanced Plugin Customization
 
 Since Nebula's goal is to get out of your way, when it comes to customize
-plugins I tried to make it simple yet powerful. The `Nebula.plugin_options`
+plugins I tried to make it simple yet powerful. The `lua/user/config` route
 exists so people who are happy with Nebula default configuration can just change
 one or two things, but if you wish to undo a lot of Nebula customization or do
 some more advanced stuff, you should configure plugins using the advanced
