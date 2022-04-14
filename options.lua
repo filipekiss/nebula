@@ -20,7 +20,7 @@ local nebula_options = {
 	},
 	cursorhold = 100,
 	display_line_numbers = {
-		disabled = { "alpha", "gitcommit" },
+		disabled = { "", "alpha", "gitcommit", "toggleterm" },
 		enabled = {},
 		enabled_relative = {},
 	},
