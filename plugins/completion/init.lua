@@ -92,6 +92,8 @@ return {
 			TypeParameter = "",
 		}
 
+		local compare = require("cmp.config.compare")
+
 		cmp.setup({
 			snippet = {
 				expand = function(args)
@@ -128,8 +130,8 @@ return {
 					)
 					-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
 					vim_item.menu = ({
-						nvim_lsp = "[LSP]",
 						luasnip = "[Snippet]",
+						nvim_lsp = "[LSP]",
 						buffer = "[Buffer]",
 						path = "[Path]",
 					})[entry.source.name]
@@ -144,12 +146,20 @@ return {
 				{ name = "buffer" },
 			},
 			sorting = {
+				priority_weight = 2,
 				comparators = {
+					compare.exact,
 					function(...)
 						if cmp_buffer then
 							return cmp_buffer:compare_locality(...)
 						end
 					end,
+					compare.offset,
+					compare.score,
+					compare.kind,
+					compare.sort_text,
+					compare.length,
+					compare.order,
 				},
 			},
 			confirm_opts = {
