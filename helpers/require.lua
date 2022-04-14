@@ -131,7 +131,7 @@ nebula_require.get_user_config = function(file_to_require)
 	end
 	if nebula_config and user_config then
 		log.debug("Merging Nebula and User config for " .. file_to_require)
-		return vim.tbl_extend("force", nebula_config, user_config)
+		return vim.tbl_deep_extend("force", nebula_config, user_config)
 	end
 	if nebula_config then
 		return nebula_config
@@ -139,6 +139,7 @@ nebula_require.get_user_config = function(file_to_require)
 	log.warn(
 		"Requested config for " .. file_to_require .. " but none was found."
 	)
+	return {}
 end
 
 return nebula_require
