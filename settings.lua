@@ -54,7 +54,6 @@ local settings = {
 		t = true, -- truncate file message at the start if it is too long to fit on the command-line, "<" will appear in the left most column. Ignored in Ex mode.
 	},
 	signcolumn = "yes", -- always show the sign column to avoid text shifting
-	smartcase = true, -- use smart case for searches
 	smartindent = true, -- try to keep indentation correct when pressing enter/return
 	splitbelow = true, -- new horizontal splits on the bottom
 	splitright = true, -- new vertical splits on the right
