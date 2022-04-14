@@ -21,3 +21,14 @@ augroup("NebulaRelativeNumber", {
 		command = 'lua require("nebula.functions").display_line_numbers("i")',
 	},
 })
+
+augroup("NebulaGitCommitInsert", {
+	{
+		events = { "FileType" },
+		targets = { "gitcommit" },
+		command = "startinsert",
+	},
+	{
+		buffer = true,
+	},
+})
