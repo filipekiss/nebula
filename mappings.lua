@@ -160,3 +160,15 @@ augroup("NebulaQfCloseOnSelect", {
 		),
 	},
 })
+-- press q to close que quickfix list
+augroup("NebulaQfCloseOnQ", {
+	{
+		events = { "FileType" },
+		targets = { "qf" },
+		command = nnoremap(
+			"q",
+			":q<CR>",
+			opts.get_string(opts.buffer(opts.silent()))
+		),
+	},
+})
