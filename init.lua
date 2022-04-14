@@ -1,12 +1,13 @@
 local log = require("nebula.log")
 local get_setup = require("nebula.helpers.require").get_setup_file
 local load_setup = require("nebula.helpers.require").load_setup_file
-local get_user_config = require("nebula.helpers.require").get_user_config
 local is_mapped = require("nebula.helpers.mappings").is_mapped
 local nebula_default_options = require("nebula.options")
 local safe_require = require("nebula.helpers.require").safe_require
 local plugin = require("nebula.helpers.plugins").plugin
 local colorscheme = require("nebula.helpers.plugins").colorscheme
+local augroup = require("nebula.helpers.autocmd").augroup
+local autocmd = require("nebula.helpers.autocmd").autocmd
 
 NEBULA_LOG_LEVEL = NEBULA_LOG_LEVEL or "error"
 
@@ -20,6 +21,8 @@ Nebula.use = require("nebula.helpers.plugins").use
 
 Nebula.plugin = plugin
 Nebula.colorscheme = colorscheme
+Nebula.augroup = augroup
+Nebula.autocmd = autocmd
 
 local function script_path()
 	local str = debug.getinfo(2, "S").source:sub(2)
