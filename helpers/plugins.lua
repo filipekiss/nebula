@@ -41,7 +41,7 @@ local function register_plugin(
 	if next(plugin_config) == nil then
 		log.warn(
 			string.format(
-				"Tried to load plugin '%s', but the configuration came up empty",
+				"Tried to load plugin '%s', but the configuration came up empty. You might have an error in your file",
 				plugin_name
 			)
 		)

@@ -163,10 +163,10 @@ Nebula.init = function(options)
 	log.debug("Loading Plugins")
 	Nebula.load_plugins()
 
-	log.debug("Registering Nebula autocmd")
+	log.debug("Registering autocmd")
 	load_setup("autocmd")
 
-	log.debug("Registering Nebula commands")
+	log.debug("Registering commands")
 	load_setup("commands")
 
 	-- Try to apply the user set colorscheme

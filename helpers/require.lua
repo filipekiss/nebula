@@ -41,7 +41,10 @@ local smart_require = function(file_to_require, req_fn)
 		if loaded_config then
 			log.debug("Found file " .. config_name)
 		else
-			log.debug("Not found file " .. config_name)
+			log.debug(
+				config_name
+					.. " wasnt loaded properly. Check if the file exists and if there are no errors"
+			)
 		end
 		if type(loaded_config) == "table" then
 			merged_config = vim.tbl_deep_extend(
