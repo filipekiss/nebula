@@ -135,7 +135,7 @@ local function makemapper(mode, default_opts)
 	default_opts = default_opts or {}
 	return function(from, to, opts)
 		opts = opts or {}
-		local used_options = vim.tbl_extend("force", default_opts, opts)
+		local used_options = vim.tbl_deep_extend("force", default_opts, opts)
 		if opts.get_string == true then
 			return keymap_string(mode, from, to, used_options)
 		end
@@ -204,6 +204,7 @@ mapping_helper.xmap = makemapper("x", map_options) -- recursive visual block mod
 mapping_helper.tmap = makemapper("t", map_options) -- recursive terminal mode
 mapping_helper.cmap = makemapper("c", map_options) -- recursive command mode (When you type `:w` for example)
 -- …non recursive global
+map_options = {}
 map_options = mapping_helper.opts.noremap()
 mapping_helper.noremmap = makemapper("", map_options) -- non-recursive normal, visual, select and operator-pending
 mapping_helper.nnoremap = makemapper("n", map_options) -- non-recursive normal mode
@@ -213,6 +214,7 @@ mapping_helper.xnoremap = makemapper("x", map_options) -- non-recursive visual b
 mapping_helper.tnoremap = makemapper("t", map_options) -- non-recursive terminal mode
 mapping_helper.cnoremap = makemapper("c", map_options) -- non-recursive command mode (When you type `:w` for example)
 -- …recursive buffer
+map_options = {}
 map_options = mapping_helper.opts.buffer(mapping_helper.opts.remap())
 mapping_helper.buf_map = makemapper("", map_options) -- normal, visual, select and operator-pending mode for a single buffer
 mapping_helper.buf_nmap = makemapper("n", map_options) -- normal mode for a single buffer
@@ -222,6 +224,7 @@ mapping_helper.buf_xmap = makemapper("x", map_options) -- recursive visual block
 mapping_helper.buf_tmap = makemapper("t", map_options) -- recursive terminal mode for a single buffer
 mapping_helper.buf_cmap = makemapper("c", map_options) -- recursive command mode (When you type `:w` for example) for a single buffer
 -- …non recursive buffer
+map_options = {}
 map_options = mapping_helper.opts.buffer(map_options)
 mapping_helper.buf_noremap = makemapper("", map_options) -- non-recursive normal, visual, select and operator-pending mode for a single buffer
 mapping_helper.buf_nnoremap = makemapper("n", map_options) -- non-recursive normal mode for a single buffer
