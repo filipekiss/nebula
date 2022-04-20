@@ -1,5 +1,6 @@
 local log = require("nebula.log")
 local nebula_require = {}
+local configset = require("nebula.helpers.configset")
 
 nebula_require.safe_require = function(module_name)
 	local present, module = pcall(require, module_name)
@@ -21,68 +22,56 @@ nebula_require.table_require = function(module_name)
 	return module
 end
 
-local get_config_names = function(config_name)
-	local user_namespace = Nebula.user_options.namespace or "user"
-	local nebula = string.format("nebula.%s", config_name)
-	local user = string.format("%s.%s", user_namespace, config_name)
-	return nebula, user
+local get_configset_names = function(config_to_require)
+	local config_sets = configset.config_namespace_order
+	local config_names = {}
+	for _, namespace in ipairs(config_sets) do
+		local config_name = string.format("%s.%s", namespace, config_to_require)
+		table.insert(config_names, config_name)
+	end
+	return config_names
+end
+
+local smart_require = function(file_to_require, req_fn)
+	local config_names = get_configset_names(file_to_require)
+	local merged_config = {}
+	for _, config_name in ipairs(config_names) do
+		log.debug("Looking for " .. config_name)
+		local loaded_config = req_fn(config_name)
+		if loaded_config then
+			log.debug("Found file " .. config_name)
+		else
+			log.debug("Not found file " .. config_name)
+		end
+		if type(loaded_config) == "table" then
+			merged_config = vim.tbl_deep_extend(
+				"force",
+				merged_config,
+				loaded_config
+			)
+		end
+	end
+	if merged_config then
+		return merged_config
+	end
+	log.warn("Requested file " .. file_to_require .. " but nothing was loaded.")
+	return nil
 end
 
 nebula_require.get_setup_file = function(file_to_require)
-	log.debug("Requiring setup file " .. file_to_require)
-	local nebula_file, user_file = get_config_names(file_to_require)
-	log.debug("Looking for " .. user_file)
-	local user_config = nebula_require.table_require(user_file)
-	if user_config then
-		log.debug("User setup found for " .. file_to_require)
-	else
-		log.debug("User setup not found for " .. file_to_require)
-	end
-	if user_config then
-		return user_config
-	end
-	log.warn(
-		"Requested setup for " .. file_to_require .. " but none was found."
-	)
+	return smart_require(file_to_require, nebula_require.table_require)
 end
 
 nebula_require.load_setup_file = function(file_to_require)
-	log.debug("Requiring setup file " .. file_to_require)
-	local nebula_file, user_file = get_config_names(file_to_require)
-	log.debug("Looking for " .. user_file)
-	local user_config = nebula_require.safe_require(user_file)
-	if user_config then
-		log.debug("User setup found for " .. file_to_require)
-	else
-		log.debug("User setup not found for " .. file_to_require)
-	end
-	if user_config then
-		return user_config
-	end
-	log.warn(
-		"Requested setup for " .. file_to_require .. " but none was found."
-	)
+	return smart_require(file_to_require, nebula_require.safe_require)
 end
 
 nebula_require.get_user_config = function(file_to_require)
-	log.debug("Requiring config file " .. file_to_require)
-	local nebula_file, user_file = get_config_names(
-		"config." .. file_to_require
+	local uconfig = smart_require(
+		"config." .. file_to_require,
+		nebula_require.table_require
 	)
-	log.debug("Looking for " .. user_file)
-	local user_config = nebula_require.table_require(user_file)
-	if user_config then
-		log.debug("User config found for " .. file_to_require)
-	else
-		log.debug("User config not found for " .. file_to_require)
-	end
-	if user_config then
-		return user_config
-	end
-	log.warn(
-		"Requested config for " .. file_to_require .. " but none was found."
-	)
-	return {}
+	return uconfig or {}
 end
 
 return nebula_require

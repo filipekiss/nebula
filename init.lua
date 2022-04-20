@@ -1,12 +1,12 @@
 local log = require("nebula.log")
 local get_setup = require("nebula.helpers.require").get_setup_file
 local load_setup = require("nebula.helpers.require").load_setup_file
-local is_mapped = require("nebula.helpers.mappings").is_mapped
 local safe_require = require("nebula.helpers.require").safe_require
 local plugin = require("nebula.helpers.plugins").plugin
 local colorscheme = require("nebula.helpers.plugins").colorscheme
 local augroup = require("nebula.helpers.autocmd").augroup
 local autocmd = require("nebula.helpers.autocmd").autocmd
+local configset = require("nebula.helpers.configset")
 
 NEBULA_LOG_LEVEL = NEBULA_LOG_LEVEL or "error"
 
@@ -19,6 +19,7 @@ Nebula.plugin = plugin
 Nebula.colorscheme = colorscheme
 Nebula.augroup = augroup
 Nebula.autocmd = autocmd
+Nebula.configset = configset.use
 
 local function script_path()
 	local str = debug.getinfo(2, "S").source:sub(2)
@@ -147,6 +148,11 @@ Nebula.init = function(options)
 	log.debug("Nebula Path: " .. Nebula.path)
 	log.debug("Log Level: " .. NEBULA_LOG_LEVEL)
 	log.debug("Initiating Nebula")
+
+	if next(configset.config_namespace_order) == nil then
+		log.warn('Configset is empty, using "user" by default...')
+		configset.use("user")
+	end
 
 	log.debug("Loading Settings")
 	Nebula.load_settings()
