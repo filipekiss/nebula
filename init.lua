@@ -58,10 +58,6 @@ Nebula.load_mappings = function()
 end
 
 Nebula.load_plugins = function()
-	-- Load Nebula Plugins
-	-- This is responsible for installing packer.nvim if not installed and loading
-	-- the plugins
-	require("nebula.plugins")
 
 	local packer = safe_require("packer")
 
