@@ -22,7 +22,7 @@ nebula_require.table_require = function(module_name)
 end
 
 local get_config_names = function(config_name)
-	local user_namespace = Nebula.options.user_namespace
+	local user_namespace = Nebula.user_options.namespace or "user"
 	local nebula = string.format("nebula.%s", config_name)
 	local user = string.format("%s.%s", user_namespace, config_name)
 	return nebula, user
@@ -38,27 +38,8 @@ nebula_require.get_setup_file = function(file_to_require)
 	else
 		log.debug("User setup not found for " .. file_to_require)
 	end
-	if user_config and user_config.nebula_override == true then
-		log.info(
-			"User setup set to override. Ignoring Nebula setup for "
-				.. file_to_require
-		)
-		user_config["nebula_override"] = nil
+	if user_config then
 		return user_config
-	end
-	log.debug("Looking for " .. nebula_file)
-	local nebula_config = nebula_require.table_require(nebula_file)
-	if nebula_config then
-		log.debug("Nebula setup found for " .. file_to_require)
-	else
-		log.debug("Nebula setup not found for " .. file_to_require)
-	end
-	if nebula_config and user_config then
-		log.debug("Merging Nebula and User setup for " .. file_to_require)
-		return vim.tbl_extend("force", nebula_config, user_config)
-	end
-	if nebula_config then
-		return nebula_config
 	end
 	log.warn(
 		"Requested setup for " .. file_to_require .. " but none was found."
@@ -75,27 +56,8 @@ nebula_require.load_setup_file = function(file_to_require)
 	else
 		log.debug("User setup not found for " .. file_to_require)
 	end
-	if type(user_config) == "table" and user_config.nebula_override == true then
-		log.info(
-			"User setup set to override. Ignoring Nebula setup for "
-				.. file_to_require
-		)
-		user_config["nebula_override"] = nil
+	if user_config then
 		return user_config
-	end
-	log.debug("Looking for " .. nebula_file)
-	local nebula_config = nebula_require.safe_require(nebula_file)
-	if nebula_config then
-		log.debug("Nebula setup found for " .. file_to_require)
-	else
-		log.debug("Nebula setup not found for " .. file_to_require)
-	end
-	if type(nebula_config) == "table" and type(user_config) == "table" then
-		log.debug("Merging Nebula and User setup for " .. file_to_require)
-		return vim.tbl_extend("force", nebula_config, user_config)
-	end
-	if nebula_config then
-		return nebula_config
 	end
 	log.warn(
 		"Requested setup for " .. file_to_require .. " but none was found."
@@ -114,30 +76,8 @@ nebula_require.get_user_config = function(file_to_require)
 	else
 		log.debug("User config not found for " .. file_to_require)
 	end
-	if user_config and user_config.nebula_override == true then
-		log.info(
-			"User config set to override. Ignoring Nebula config for "
-				.. file_to_require
-		)
-		user_config["nebula_override"] = nil
+	if user_config then
 		return user_config
-	end
-	log.debug("Looking for " .. nebula_file)
-	local nebula_config = nebula_require.table_require(nebula_file)
-	if nebula_config then
-		log.debug("Nebula config found for " .. file_to_require)
-	else
-		log.debug("Nebula config not found for " .. file_to_require)
-	end
-	if nebula_config and user_config then
-		log.debug("Merging Nebula and User config for " .. file_to_require)
-		return vim.tbl_deep_extend("force", nebula_config, user_config)
-	end
-  if user_config then
-    return user_config
-  end
-	if nebula_config then
-		return nebula_config
 	end
 	log.warn(
 		"Requested config for " .. file_to_require .. " but none was found."

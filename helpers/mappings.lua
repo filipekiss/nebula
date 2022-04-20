@@ -139,7 +139,6 @@ local function makemapper(mode, default_opts)
 		if opts.get_string == true then
 			return keymap_string(mode, from, to, used_options)
 		end
-		used_options["buffer"] = nil
 		return mapping_helper.keymap(mode, from, to, used_options)
 	end
 end

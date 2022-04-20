@@ -15,7 +15,7 @@ local function register_plugin(
 )
 	local table_require = require("nebula.helpers.require").table_require
 	local next = next
-	local user_namespace = Nebula.options.user_namespace
+	local user_namespace = Nebula.user_options.namespace or "user"
 	local user_plugin_name = string.format(
 		"%s.%s.%s",
 		user_namespace,
