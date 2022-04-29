@@ -136,6 +136,20 @@ local function makemapper(mode, default_opts)
 	return function(from, to, opts)
 		opts = opts or {}
 		local used_options = vim.tbl_deep_extend("force", default_opts, opts)
+		if used_options.debug then
+			log.debug(
+				string.format(
+					"Mapping %s mode from %s to %s with options %s",
+					mode,
+					from,
+					to,
+					table.concat(used_opts or {}, ", ")
+				)
+			)
+		end
+		if used_options["debug"] ~= nil then
+			used_options["debug"] = nil
+		end
 		if opts.get_string == true then
 			return keymap_string(mode, from, to, used_options)
 		end
@@ -192,6 +206,8 @@ mapping_helper.opts.buffer = update_options("buffer", true)
 mapping_helper.opts.nobuffer = update_options("buffer", false)
 mapping_helper.opts.no_override = update_options("no_override", true)
 mapping_helper.opts.get_string = update_options("get_string", true)
+mapping_helper.opts.debug = update_options("debug", true)
+mapping_helper.opts.nodebug = update_options("debug", false)
 
 -- each function is used to map to a specific mode…
 -- …recursive global
