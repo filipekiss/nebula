@@ -172,7 +172,7 @@ Nebula.init = function(options)
 	load_setup("autocmd")
 
 	log.debug("Registering commands")
-	if not Nebula.user_options.disable_commands then
+	if Nebula.user_options.enable_nebula_commands then
 		require("nebula.commands")
 	end
 	load_setup("commands")
