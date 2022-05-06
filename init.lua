@@ -60,7 +60,7 @@ Nebula.load_plugins = function()
 		end
 	end
 
-	local packer_config = plugin("packer")
+	local packer_config = get_config("packer")
 
 	local plugins_helper = require("nebula.helpers.plugins")
 	local nebula_plugins = plugins_helper.nebula_plugins
