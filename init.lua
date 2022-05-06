@@ -121,12 +121,15 @@ Nebula.load_plugins = function()
 		require("packer").sync()
 		-- Try to apply the user colorscheme after everything is installed,
 		-- otherwise use catppuccin
-		vim.cmd(
-			string.format(
-				"autocmd User PackerComplete ++once colorscheme %s",
-				Nebula.user_options.colorscheme or Nebula.default_colorscheme
+		if Nebula.user_options.colorscheme ~= nil then
+			vim.cmd(
+				string.format(
+					"autocmd User PackerComplete ++once colorscheme %s",
+					Nebula.user_options.colorscheme
+						or Nebula.default_colorscheme
+				)
 			)
-		)
+		end
 	end
 end
 
@@ -169,6 +172,9 @@ Nebula.init = function(options)
 	load_setup("autocmd")
 
 	log.debug("Registering commands")
+	if not Nebula.user_options.disable_commands then
+		require("nebula.commands")
+	end
 	load_setup("commands")
 
 	-- Try to apply the user set colorscheme
