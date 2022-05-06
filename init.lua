@@ -2,6 +2,7 @@ local log = require("nebula.log")
 local get_setup = require("nebula.helpers.require").get_setup_file
 local load_setup = require("nebula.helpers.require").load_setup_file
 local safe_require = require("nebula.helpers.require").safe_require
+local get_config = require("nebula.helpers.require").get_user_config
 local plugin = require("nebula.helpers.plugins").plugin
 local colorscheme = require("nebula.helpers.plugins").colorscheme
 local augroup = require("nebula.helpers.autocmd").augroup
@@ -20,6 +21,7 @@ Nebula.colorscheme = colorscheme
 Nebula.augroup = augroup
 Nebula.autocmd = autocmd
 Nebula.configset = configset.use
+Nebula.get_config = get_config
 
 local function script_path()
 	local str = debug.getinfo(2, "S").source:sub(2)
