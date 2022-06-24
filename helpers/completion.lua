@@ -15,7 +15,7 @@ local smart_completion = function(direction)
 	if direction == "previous" then
 		return function(fallback)
 			if cmp.visible() then
-				cmp.select_prev_item()
+				cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
 			elseif luasnip.jumpable(-1) then
 				vim.fn.feedkeys(
 					vim.api.nvim_replace_termcodes(
@@ -33,10 +33,10 @@ local smart_completion = function(direction)
 	else
 		return function(fallback)
 			if cmp.visible() then
-				cmp.select_next_item()
+				cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
 			elseif luasnip.expandable() then
 				luasnip.expand()
-			elseif luasnip.expand_or_jumpable() then
+			elseif luasnip.expand_or_locally_jumpable() then
 				vim.fn.feedkeys(
 					vim.api.nvim_replace_termcodes(
 						"<Plug>luasnip-expand-or-jump",
