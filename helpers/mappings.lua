@@ -59,17 +59,7 @@ mapping_helper.keymap = function(mode, from, to, options)
 		end
 		used_options["no_override"] = nil
 	end
-	if used_options.buffer then
-		local bufnr = vim.api.nvim_win_get_buf(0)
-		-- if used_options.buffer is a number, use it as bufnr instead of using the
-		-- bufnr from above
-		if type(used_options.buffer) == "number" then
-			bufnr = used_options.buffer
-		end
-		used_options["buffer"] = nil
-		return vim.api.nvim_buf_set_keymap(bufnr, mode, from, to, used_options)
-	end
-	return vim.api.nvim_set_keymap(mode, from, to, used_options)
+  return vim.keymap.set(mode, from, to, used_options)
 end
 
 function mapping_helper.leader(leader_key)
@@ -210,6 +200,7 @@ mapping_helper.opts.no_override = update_options("no_override", true)
 mapping_helper.opts.get_string = update_options("get_string", true)
 mapping_helper.opts.debug = update_options("debug", true)
 mapping_helper.opts.nodebug = update_options("debug", false)
+mapping_helper.opts.desc = function (desc) return update_options("desc", desc) end
 
 -- each function is used to map to a specific mode…
 -- …recursive global
